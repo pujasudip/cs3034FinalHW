@@ -9,7 +9,7 @@
 using namespace std;
 
 void replace(node *root, node *runner);
-void print(node *root);
+void print(node *root, string);
 void deleteNode(node *root, node *runner);
 int sizeOfList(node *root, node *runner);
 void split(node *root, node *runner, int size);
@@ -36,24 +36,25 @@ int main(){
 		}
 		cout << endl;
 	}
-	print(root);
+	print(root, "Initial Content of the list: ");
 	replace(root, runner);
+	print(root, "After number replacement: ");
 	deleteNode(root, runner);
-	print(root);
+	print(root, "After deletion: ");
 	int size = sizeOfList(root, runner);
 	split(root, runner, size);
 }
 
-void print(node *printData){
-	node *runner = new node;
-	cout << "List: ";
-	runner = printData;
-	if(runner != 0){
-		while(runner != 0){
-			cout << runner->data << " ";
-			runner = runner->next;
+void print(node *printData, string title){
+	node *pri = new node;
+	cout << title << endl;;
+	pri = printData;
+	if(pri != 0){
+		while(pri != 0){
+			cout << pri->data << " ";
+			pri = pri->next;
 		}
-		cout << endl;
+		cout << endl << endl;
 	}
 }
 
@@ -104,16 +105,16 @@ int sizeOfList(node *root, node *runner){
 }
 void split(node *root, node *runner, int size){
 	int firstHalf = size/2;
-	cout << "half: " << firstHalf << endl;
 	int secondHalf = size - firstHalf;
-	cout << "half: " << secondHalf << endl;
 	int count = 1;
 
-	node *list1Head;
+	node *list1Head = new node;
 	node *list1;
 	list1 = list1Head;
 
 	runner = root;
+
+	list1Head->data = root->data;
 
 	while(count < firstHalf){
 		node *temp = new node;
@@ -121,27 +122,25 @@ void split(node *root, node *runner, int size){
 		list1->next =  temp;
 		list1 = list1->next;
 		runner = runner->next;
-		cout << "hello:" << list1->data << endl;
 		count++;
-		
 	}
-	print(list1Head);
+	print(list1Head, "First List: ");
 
-	node *list2Head;
+	node *list2Head = new node;
 	node *list2;
 	list2 = list2Head;
 
 	count = 0;
+	list2->data = runner->next->data;
 	while(count < secondHalf){
-		node *temp = new node;
-		temp->data = runner->next->data;
-		list2->next =  temp;
+		node *temp2 = new node;
+		temp2->data = runner->next->next->data;
+		list2->next =  temp2;
 		list2 = list2->next;
 		runner = runner->next;
-		cout << "list2:" << list2->data << endl;
 		count++;
 	}
-	print(list2Head);
+	 print(list2Head, "Second List: ");
 }
 
 #endif
